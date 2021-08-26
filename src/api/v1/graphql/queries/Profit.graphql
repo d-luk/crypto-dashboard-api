@@ -1,0 +1,8 @@
+type Query {
+  totalProfit: TotalProfit!
+}
+
+type TotalProfit {
+  amount(currency: DisplayCurrency!): Float!
+  percentage: Float!
+}
