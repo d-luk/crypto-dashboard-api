@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import GetBalancesService from './GetBalancesService';
 import GetTickerPricesService from './GetTickerPricesService';
+import SupportedCurrency from './SupportedCurrency';
 
 @Injectable()
 export default class GetTotalBalanceService {
@@ -11,7 +12,7 @@ export default class GetTotalBalanceService {
 
   async getBalance(
     options: {
-      resultCurrency: 'EUR' | 'BTC';
+      resultCurrency: SupportedCurrency;
     },
     credentials: {
       apiKey: string;
@@ -27,7 +28,7 @@ export default class GetTotalBalanceService {
 
     const amount = balances.reduce((result, balance) => {
       if (balance.symbol === options.resultCurrency) {
-        return result + balance.available;
+        return result + balance.available + balance.inOrder;
       }
 
       const marketName = balance.symbol + '-' + options.resultCurrency;

@@ -4,6 +4,9 @@ import hasProperty from 'src/helpers/hasProperty';
 import isArray from 'src/helpers/isArray';
 import CallApiService from './CallApiService';
 
+/**
+ * Balance is the amount of assets currently being held.
+ */
 @Injectable()
 export default class GetBalancesService {
   constructor(private readonly callApiService: CallApiService) {}

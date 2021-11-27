@@ -3,6 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import CallApiService from './CallApiService';
 import config, { Config } from './config';
 import CreateSignatureService from './CreateSignatureService';
+import GetAssetInvestmentService from './GetAssetInvestmentService';
+import GetAssetsService from './GetAssetsService';
+import GetAssetTradesService from './GetAssetTradesService';
 import GetBalancesService from './GetBalancesService';
 import GetDepositHistoryService from './GetDepositHistoryService';
 import GetTickerPricesService from './GetTickerPricesService';
@@ -41,7 +44,10 @@ import VerifyCredentialsService from './VerifyCredentialsService';
     GetTotalProfitService,
     GetTotalSpentService,
     GetWithdrawalHistoryService,
+    GetAssetsService,
+    GetAssetTradesService,
+    GetAssetInvestmentService,
   ],
-  exports: [VerifyCredentialsService, GetTotalProfitService],
+  exports: [VerifyCredentialsService, GetTotalProfitService, GetAssetsService],
 })
 export default class BitvavoModule {}

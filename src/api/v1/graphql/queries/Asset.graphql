@@ -1,0 +1,35 @@
+type Query {
+  assets(first: Int!, orderBy: AssetOrder!, after: String): AssetConnection!
+}
+
+enum AssetOrderField {
+  PROFIT
+}
+
+input AssetOrder {
+  field: AssetOrderField!
+  direction: OrderDirection!
+}
+
+type AssetProfit {
+  amount(currency: DisplayCurrency!): Float!
+  percentage: Float!
+}
+
+type Asset {
+  symbol: String!
+  profit: AssetProfit!
+  worth(currency: DisplayCurrency!): Float!
+}
+
+type AssetConnection {
+  pageInfo: PageInfo!
+  edges: [AssetEdge!]!
+  nodes: [Asset!]!
+  totalCount: Int!
+}
+
+type AssetEdge {
+  cursor: String!
+  node: Asset!
+}

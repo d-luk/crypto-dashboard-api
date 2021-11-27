@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import calculatePercentage from 'src/helpers/calculatePercentage';
 import GetTotalBalanceService from './GetTotalBalanceService';
 import GetTotalSpentService from './GetTotalSpentService';
+import SupportedCurrency from './SupportedCurrency';
 
 @Injectable()
 export default class GetTotalProfitService {
@@ -11,7 +12,7 @@ export default class GetTotalProfitService {
   ) {}
 
   async getTotalProfit(
-    resultCurrency: 'EUR' | 'BTC',
+    resultCurrency: SupportedCurrency,
     credentials: {
       apiKey: string;
       apiSecret: string;

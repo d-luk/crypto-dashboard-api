@@ -5,6 +5,9 @@ import isArray from 'src/helpers/isArray';
 import parseFloat from 'src/helpers/parseFloat';
 import CallApiService from './CallApiService';
 
+/**
+ * Provides the current prices of each asset.
+ */
 @Injectable()
 export default class GetTickerPricesService {
   constructor(private readonly callApiService: CallApiService) {}
