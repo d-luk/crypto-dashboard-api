@@ -1,13 +1,17 @@
 type Query {
-  assets(first: Int!, orderBy: AssetOrder!, after: String): AssetConnection!
+  ownedAssets(
+    first: Int!
+    orderBy: OwnedAssetOrder!
+    after: String
+  ): OwnedAssetConnection!
 }
 
-enum AssetOrderField {
+enum OwnedAssetOrderField {
   PROFIT
 }
 
-input AssetOrder {
-  field: AssetOrderField!
+input OwnedAssetOrder {
+  field: OwnedAssetOrderField!
   direction: OrderDirection!
 }
 
@@ -22,14 +26,14 @@ type Asset {
   worth(currency: DisplayCurrency!): Float!
 }
 
-type AssetConnection {
+type OwnedAssetConnection {
   pageInfo: PageInfo!
-  edges: [AssetEdge!]!
+  edges: [OwnedAssetEdge!]!
   nodes: [Asset!]!
   totalCount: Int!
 }
 
-type AssetEdge {
+type OwnedAssetEdge {
   cursor: String!
   node: Asset!
 }

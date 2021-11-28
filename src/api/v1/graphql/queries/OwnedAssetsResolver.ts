@@ -1,27 +1,29 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ForbiddenError } from 'apollo-server-express';
 import {
-  AssetOrder,
-  AssetOrderField,
   OrderDirection,
+  OwnedAssetOrder,
+  OwnedAssetOrderField,
 } from 'src/generated/graphqlNest';
 import getValue from 'src/helpers/getValue';
 import QueryResolver from 'src/helpers/resolverTypes/QueryResolver';
 import BitvavoUser, { User } from '../../authentication/BitvavoUser';
-import GetAssetsService from '../../submodules/bitvavo/GetAssetsService';
-import AssetConnectionModel from './AssetConnectionModel';
+import GetOwnedAssetsService from '../../submodules/bitvavo/GetOwnedAssetsService';
+import OwnedAssetConnectionModel from './OwnedAssetConnectionModel';
 
 @Resolver()
-export default class AssetsResolver implements QueryResolver<'assets'> {
-  constructor(private readonly assetsService: GetAssetsService) {}
+export default class OwnedAssetsResolver
+  implements QueryResolver<'ownedAssets'>
+{
+  constructor(private readonly assetsService: GetOwnedAssetsService) {}
 
   @Query()
-  async assets(
+  async ownedAssets(
     @Args('first') first: number,
-    @Args('orderBy') orderBy: AssetOrder,
+    @Args('orderBy') orderBy: OwnedAssetOrder,
     @Args('after') after: string | null | undefined,
     @BitvavoUser() user: User,
-  ): Promise<AssetConnectionModel> {
+  ): Promise<OwnedAssetConnectionModel> {
     if (user === null) {
       throw new ForbiddenError('Please check your API key headers');
     }
@@ -33,7 +35,7 @@ export default class AssetsResolver implements QueryResolver<'assets'> {
       orderBy: {
         field: getValue(() => {
           switch (orderBy.field) {
-            case AssetOrderField.PROFIT:
+            case OwnedAssetOrderField.PROFIT:
               return 'PROFIT';
 
             default:

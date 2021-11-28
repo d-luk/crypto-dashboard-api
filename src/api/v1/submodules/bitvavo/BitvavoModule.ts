@@ -4,7 +4,7 @@ import CallApiService from './CallApiService';
 import config, { Config } from './config';
 import CreateSignatureService from './CreateSignatureService';
 import GetAssetInvestmentService from './GetAssetInvestmentService';
-import GetAssetsService from './GetAssetsService';
+import GetOwnedAssetsService from './GetOwnedAssetsService';
 import GetAssetTradesService from './GetAssetTradesService';
 import GetBalancesService from './GetBalancesService';
 import GetDepositHistoryService from './GetDepositHistoryService';
@@ -44,10 +44,14 @@ import VerifyCredentialsService from './VerifyCredentialsService';
     GetTotalProfitService,
     GetTotalSpentService,
     GetWithdrawalHistoryService,
-    GetAssetsService,
+    GetOwnedAssetsService,
     GetAssetTradesService,
     GetAssetInvestmentService,
   ],
-  exports: [VerifyCredentialsService, GetTotalProfitService, GetAssetsService],
+  exports: [
+    VerifyCredentialsService,
+    GetTotalProfitService,
+    GetOwnedAssetsService,
+  ],
 })
 export default class BitvavoModule {}

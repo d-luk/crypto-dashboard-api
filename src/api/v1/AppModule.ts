@@ -4,7 +4,7 @@ import VerifyBitvavoResolver from './graphql/mutations/VerifyBitvavoCredentialsR
 import BitvavoModule from './submodules/bitvavo/BitvavoModule';
 import { ConfigModule } from '@nestjs/config';
 import BalanceResolver from './graphql/queries/TotalProfitResolver';
-import AssetsResolver from './graphql/queries/AssetsResolver';
+import OwnedAssetsResolver from './graphql/queries/OwnedAssetsResolver';
 
 @Module({
   imports: [
@@ -14,6 +14,6 @@ import AssetsResolver from './graphql/queries/AssetsResolver';
     }),
     BitvavoModule,
   ],
-  providers: [VerifyBitvavoResolver, BalanceResolver, AssetsResolver],
+  providers: [VerifyBitvavoResolver, BalanceResolver, OwnedAssetsResolver],
 })
 export default class AppModule {}

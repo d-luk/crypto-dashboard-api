@@ -17,24 +17,24 @@ interface Asset {
   profit: number;
 }
 
-interface AssetEdge {
+interface OwnedAssetEdge {
   cursor: string;
   node: Asset;
 }
 
-export interface AssetConnection {
+export interface OwnedAssetConnection {
   pageInfo: {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
     startCursor: string | null;
     endCursor: string | null;
   };
-  edges: AssetEdge[];
+  edges: OwnedAssetEdge[];
   totalCount: number;
 }
 
 @Injectable()
-export default class GetAssetsService {
+export default class GetOwnedAssetsService {
   constructor(
     private readonly getBalancesService: GetBalancesService,
     private readonly getTickerPricesService: GetTickerPricesService,
@@ -56,7 +56,7 @@ export default class GetAssetsService {
       apiKey: string;
       apiSecret: string;
     };
-  }): Promise<AssetConnection> {
+  }): Promise<OwnedAssetConnection> {
     const [balances, prices] = await Promise.all([
       this.getBalancesService.getBalances(input.credentials),
       this.getTickerPricesService.getPrices(input.credentials),
@@ -203,7 +203,7 @@ export default class GetAssetsService {
     return {
       totalCount: assets.length,
       edges: assetsOnPage.map(
-        (asset): AssetEdge => ({
+        (asset): OwnedAssetEdge => ({
           cursor: createAssetCursor(asset),
           node: asset,
         }),
