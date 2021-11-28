@@ -3,7 +3,7 @@ type Query {
 }
 
 enum AssetOrderField {
-  PROFIT_AMOUNT
+  PROFIT
 }
 
 input AssetOrder {
@@ -11,14 +11,14 @@ input AssetOrder {
   direction: OrderDirection!
 }
 
-type AssetProfit {
-  amount(currency: DisplayCurrency!): Float!
-  percentage: Float!
-}
-
 type Asset {
   symbol: String!
-  profit: AssetProfit!
+
+  """
+  The amount spent (including fees) minus the amount received.
+  """
+  investment(currency: DisplayCurrency!): Float!
+  profit(currency: DisplayCurrency!): Float!
   worth(currency: DisplayCurrency!): Float!
 }
 

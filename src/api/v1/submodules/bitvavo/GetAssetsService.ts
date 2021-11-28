@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import calculatePercentage from 'src/helpers/calculatePercentage';
 import getValue from 'src/helpers/getValue';
 import nonNull from 'src/helpers/nonNull';
 import parseNumber from 'src/helpers/parseNumber';
@@ -13,11 +12,9 @@ import SupportedCurrency from './SupportedCurrency';
 
 interface Asset {
   symbol: string;
+  investment: number;
   worth: number;
-  profit: {
-    amount: number;
-    percentage: number;
-  };
+  profit: number;
 }
 
 interface AssetEdge {
@@ -52,7 +49,7 @@ export default class GetAssetsService {
     first: number;
     afterCursor: string | null;
     orderBy: {
-      field: 'PROFIT_AMOUNT';
+      field: 'PROFIT';
       direction: 'ASC' | 'DESC';
     };
     credentials: {
@@ -95,16 +92,11 @@ export default class GetAssetsService {
 
       const profit = worth - investment;
 
-      const percentage =
-        investment === 0 ? 0 : calculatePercentage(investment, worth);
-
       return {
         symbol: balance.symbol,
+        investment,
         worth,
-        profit: {
-          amount: profit,
-          percentage: percentage === Infinity ? 0 : percentage,
-        },
+        profit,
       };
     });
 
@@ -113,13 +105,13 @@ export default class GetAssetsService {
     assets.sort((assetA, assetB) =>
       getValue((): number => {
         switch (input.orderBy.field) {
-          case 'PROFIT_AMOUNT':
+          case 'PROFIT':
             switch (input.orderBy.direction) {
               case 'ASC':
-                return assetA.profit.amount - assetB.profit.amount;
+                return assetA.profit - assetB.profit;
 
               case 'DESC':
-                return assetB.profit.amount - assetA.profit.amount;
+                return assetB.profit - assetA.profit;
 
               default:
                 throw new Error(
@@ -137,11 +129,8 @@ export default class GetAssetsService {
 
     function createAssetCursor(asset: Asset): string {
       switch (input.orderBy.field) {
-        case 'PROFIT_AMOUNT':
-          return createCursor(
-            cursorIndentifier,
-            asset.profit.amount.toString(),
-          );
+        case 'PROFIT':
+          return createCursor(cursorIndentifier, asset.profit.toString());
 
         default:
           throw new Error(`Unhandled order by field`);
@@ -155,7 +144,7 @@ export default class GetAssetsService {
       } | null => {
         const matchesCursor = (asset: Asset): boolean => {
           switch (input.orderBy.field) {
-            case 'PROFIT_AMOUNT':
+            case 'PROFIT':
               if (!input.afterCursor) {
                 return true;
               }
@@ -168,12 +157,12 @@ export default class GetAssetsService {
                 case 'ASC':
                   const minimumProfit = parsedCursor;
 
-                  return asset.profit.amount > minimumProfit;
+                  return asset.profit > minimumProfit;
 
                 case 'DESC':
                   const maximumProfit = parsedCursor;
 
-                  return asset.profit.amount < maximumProfit;
+                  return asset.profit < maximumProfit;
 
                 default:
                   throw new Error(
