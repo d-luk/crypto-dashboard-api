@@ -94,7 +94,9 @@ export default class GetAssetsService {
       });
 
       const profit = worth - investment;
-      const percentage = calculatePercentage(investment, worth);
+
+      const percentage =
+        investment === 0 ? 0 : calculatePercentage(investment, worth);
 
       return {
         symbol: balance.symbol,
