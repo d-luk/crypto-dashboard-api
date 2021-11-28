@@ -22,8 +22,6 @@ export default class GetAssetInvestmentService {
   }> {
     const trades = await this.tradesService.getTrades(input);
 
-    console.log(trades);
-
     const { spent, received } = trades.reduce(
       (result, trade) => {
         switch (trade.type) {
