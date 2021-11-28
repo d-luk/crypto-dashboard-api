@@ -52,7 +52,7 @@ export default class GetAssetsService {
     first: number;
     afterCursor: string | null;
     orderBy: {
-      field: 'PROFIT';
+      field: 'PROFIT_AMOUNT';
       direction: 'ASC' | 'DESC';
     };
     credentials: {
@@ -111,7 +111,7 @@ export default class GetAssetsService {
     assets.sort((assetA, assetB) =>
       getValue((): number => {
         switch (input.orderBy.field) {
-          case 'PROFIT':
+          case 'PROFIT_AMOUNT':
             switch (input.orderBy.direction) {
               case 'ASC':
                 return assetA.profit.amount - assetB.profit.amount;
@@ -135,7 +135,7 @@ export default class GetAssetsService {
 
     function createAssetCursor(asset: Asset): string {
       switch (input.orderBy.field) {
-        case 'PROFIT':
+        case 'PROFIT_AMOUNT':
           return createCursor(
             cursorIndentifier,
             asset.profit.amount.toString(),
@@ -153,7 +153,7 @@ export default class GetAssetsService {
       } | null => {
         const matchesCursor = (asset: Asset): boolean => {
           switch (input.orderBy.field) {
-            case 'PROFIT':
+            case 'PROFIT_AMOUNT':
               if (!input.afterCursor) {
                 return true;
               }

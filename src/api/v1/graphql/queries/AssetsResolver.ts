@@ -33,8 +33,8 @@ export default class AssetsResolver implements QueryResolver<'assets'> {
       orderBy: {
         field: getValue(() => {
           switch (orderBy.field) {
-            case AssetOrderField.PROFIT:
-              return 'PROFIT';
+            case AssetOrderField.PROFIT_AMOUNT:
+              return 'PROFIT_AMOUNT';
 
             default:
               throw new Error(`Unhandled order field ${orderBy.field}`);

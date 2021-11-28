@@ -3,7 +3,7 @@ type Query {
 }
 
 enum AssetOrderField {
-  PROFIT
+  PROFIT_AMOUNT
 }
 
 input AssetOrder {
