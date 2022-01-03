@@ -172,8 +172,6 @@ export default class GetOwnedAssetsService {
           }
         };
 
-        // TODO: Check descending logic
-
         let startIndex: number | null = null;
 
         for (let index = 0; index < assets.length; index++) {
