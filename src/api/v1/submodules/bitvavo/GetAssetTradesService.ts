@@ -69,50 +69,20 @@ export default class GetAssetTradesService {
           return new Date(apiTrade.timestamp);
         }),
         type: getValue(() => {
-          if (
-            !hasProperty(apiTrade, 'side') ||
-            typeof apiTrade.side !== 'string'
-          ) {
-            throw new Error('Expected trade side to be a string');
-          }
+          const side = getStringProperty(apiTrade, 'side');
 
-          switch (apiTrade.side) {
+          switch (side) {
             case 'buy':
               return 'BUY';
             case 'sell':
               return 'SELL';
             default:
-              throw new Error(`Unexpected trade side "${apiTrade.side}"`);
+              throw new Error(`Unexpected trade side "${side}"`);
           }
         }),
-        amount: getValue(() => {
-          if (
-            !hasProperty(apiTrade, 'amount') ||
-            typeof apiTrade.amount !== 'string'
-          ) {
-            throw new Error('Expected trade amount to be a string');
-          }
-
-          return parseFloat(apiTrade.amount);
-        }),
-        pricePerAsset: getValue(() => {
-          if (
-            !hasProperty(apiTrade, 'price') ||
-            typeof apiTrade.price !== 'string'
-          ) {
-            throw new Error('Expected trade price to be a string');
-          }
-
-          return parseFloat(apiTrade.price);
-        }),
+        amount: parseFloat(getStringProperty(apiTrade, 'amount')),
+        pricePerAsset: parseFloat(getStringProperty(apiTrade, 'price')),
         fee: getValue(() => {
-          if (
-            !hasProperty(apiTrade, 'fee') ||
-            typeof apiTrade.fee !== 'string'
-          ) {
-            throw new Error('Expected trade fee to be a string');
-          }
-
           if (
             !hasProperty(apiTrade, 'feeCurrency') ||
             apiTrade.feeCurrency !== input.currency
@@ -122,9 +92,23 @@ export default class GetAssetTradesService {
             );
           }
 
-          return parseFloat(apiTrade.fee);
+          return parseFloat(getStringProperty(apiTrade, 'fee'));
         }),
       };
     });
   }
+}
+
+function getStringProperty(object: unknown, property: string): string {
+  if (!hasProperty(object, property)) {
+    throw new Error(`Expected object to have a property called "${property}"`);
+  }
+
+  const value = object[property];
+
+  if (typeof value !== 'string') {
+    throw new Error(`Expected property "${property}" to be a string`);
+  }
+
+  return value;
 }
