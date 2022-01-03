@@ -4,6 +4,9 @@ import hasProperty from 'src/helpers/hasProperty';
 import isArray from 'src/helpers/isArray';
 import CallApiService from './CallApiService';
 
+/**
+ * Provides the amount of units currently owned per asset.
+ */
 @Injectable()
 export default class GetBalancesService {
   constructor(private readonly callApiService: CallApiService) {}

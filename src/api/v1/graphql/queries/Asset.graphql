@@ -1,0 +1,39 @@
+type Query {
+  ownedAssets(
+    first: Int!
+    orderBy: OwnedAssetOrder!
+    after: String
+  ): OwnedAssetConnection!
+}
+
+enum OwnedAssetOrderField {
+  PROFIT
+}
+
+input OwnedAssetOrder {
+  field: OwnedAssetOrderField!
+  direction: OrderDirection!
+}
+
+type Asset {
+  symbol: String!
+
+  """
+  The amount spent (including fees) minus the amount received.
+  """
+  investment(currency: DisplayCurrency!): Float!
+  profit(currency: DisplayCurrency!): Float!
+  worth(currency: DisplayCurrency!): Float!
+}
+
+type OwnedAssetConnection {
+  pageInfo: PageInfo!
+  edges: [OwnedAssetEdge!]!
+  nodes: [Asset!]!
+  totalCount: Int!
+}
+
+type OwnedAssetEdge {
+  cursor: String!
+  node: Asset!
+}
