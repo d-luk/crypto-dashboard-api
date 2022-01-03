@@ -5,7 +5,7 @@ import isArray from 'src/helpers/isArray';
 import CallApiService from './CallApiService';
 
 /**
- * Balance is the amount of assets currently being held.
+ * Provides the amount of units currently owned per asset.
  */
 @Injectable()
 export default class GetBalancesService {
