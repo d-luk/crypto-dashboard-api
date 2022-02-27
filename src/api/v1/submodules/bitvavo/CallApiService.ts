@@ -9,6 +9,7 @@ import InvalidApiSecretError from './errors/InvalidApiSecretError';
 import IpNotAllowedError from './errors/IpNotAllowedError';
 import RateLimitError from './errors/RateLimitError';
 import UnhandledErrorCodeError from './errors/UnhandledErrorCodeError';
+import { URLSearchParams } from 'url';
 
 // TODO: Exception filter
 
